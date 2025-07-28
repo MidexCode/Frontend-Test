@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Alert from "@mui/material/Alert";
-import CheckIcon from "@mui/icons-material/Check"; // Added missing import
+import CheckIcon from "@mui/icons-material/Check";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {

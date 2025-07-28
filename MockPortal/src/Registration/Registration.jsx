@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import Alert from "@mui/material/Alert";
 import CheckIcon from "@mui/icons-material/Check";
-// import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-// import Stack from "@mui/material/Stack";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Registration = () => {

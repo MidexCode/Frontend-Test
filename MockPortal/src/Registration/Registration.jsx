@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
-import { IconButton, InputAdornment } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import CheckIcon from "@mui/icons-material/Check";
+// import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+// import Stack from "@mui/material/Stack";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Registration = () => {
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
+  const [alert, setAlert] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -15,6 +19,28 @@ const Registration = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!checked) {
+      setAlert(
+        <Alert
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="warning"
+          className="mb-4"
+        >
+          Please agree to the Terms & Conditions and Privacy Policy.
+        </Alert>
+      );
+      return;
+    }
+    setAlert(
+      <Alert
+        icon={<CheckIcon fontSize="inherit" />}
+        severity="success"
+        className="mb-4"
+      >
+        Registration successful!
+      </Alert>
+    );
 
     navigate("/dashboard");
   };
@@ -50,6 +76,7 @@ const Registration = () => {
 
       <div className="bg-white rounded-lg shadow-md p-6 mt-10 max-w-md mx-auto">
         <form onSubmit={handleSubmit}>
+          {alert}
           <label className="block text-gray-700 mb-3 mt-3 font-semibold">
             First Name
           </label>
@@ -147,13 +174,6 @@ const Registration = () => {
             type="submit"
             className="w-full bg-gray-200 mt-10 text-white py-3 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition-colors"
             disabled={passwordError || !password || !confirmPassword}
-            onClick={() => {
-              if (!checked) {
-                alert("Please agree to the terms and conditions.");
-              } else {
-                alert("Registration successful!");
-              }
-            }}
           >
             <h1 className="font-semibold">Join Now</h1>
           </button>

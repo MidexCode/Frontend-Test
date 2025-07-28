@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Registration from "./Registration/Registration.jsx";
+import Registration from "./Registration/registration.jsx";
 import Dashboard from "./Dashboard/Dashboard.jsx";
 
 function App() {

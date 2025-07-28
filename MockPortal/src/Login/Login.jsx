@@ -114,7 +114,7 @@ const Login = () => {
         Redirecting to forgot password page...
       </Alert>
     );
-    setTimeout(() => navigate("/forgot-password"), 500);
+    setTimeout(() => navigate("/passwordreset"), 500);
   };
 
   return (

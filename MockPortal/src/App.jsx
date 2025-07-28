@@ -10,7 +10,7 @@ function App() {
       <Route path="/" element={<Registration />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/forgot-password" element={<PasswordReset />} />
+      <Route path="/passwordreset" element={<PasswordReset />} />
     </Routes>
   );
 }

@@ -21,7 +21,7 @@ const PasswordReset = () => {
       ...prev,
       [name]: value,
     }));
-    // Clear error when user starts typing
+
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -59,7 +59,7 @@ const PasswordReset = () => {
       return;
     }
 
-    // Simulate credential check (replace with real authentication)
+    // Simulate credential check
     if (
       formData.password !== "correctpassword" ||
       formData.confirmPassword !== "correctpassword"
@@ -155,7 +155,7 @@ const PasswordReset = () => {
               )}
             </div>
 
-            {/* Confirm Password Field - FIXED */}
+            {/* Confirm Password Field*/}
             <div>
               <label
                 htmlFor="confirmPassword"

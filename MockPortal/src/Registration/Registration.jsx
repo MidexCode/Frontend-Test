@@ -100,7 +100,7 @@ const Registration = () => {
     );
 
     setTimeout(() => {
-      navigate("/login");
+      navigate("/usertype");
     }, 2000);
   };
 

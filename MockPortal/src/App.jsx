@@ -4,6 +4,7 @@ import Dashboard from "./Dashboard/Dashboard.jsx";
 import Login from "./Login/Login.jsx";
 import PasswordReset from "./PasswordReset/PasswordReset.jsx";
 import Verification from "./Verification/Verification.jsx";
+import UserType from "./UserType/UserType.jsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/passwordreset" element={<PasswordReset />} />
       <Route path="/verification" element={<Verification />} />
+      <Route path="/usertype" element={<UserType />} />
     </Routes>
   );
 }

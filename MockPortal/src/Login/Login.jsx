@@ -144,8 +144,7 @@ const Login = () => {
               Sign in to your account
             </h2>
             <p className="text-gray-600 text-center">
-              Access your <span className="text-red-500 font-medium">Logo</span>{" "}
-              platform dashboard
+              Access your platform dashboard
             </p>
           </div>
 

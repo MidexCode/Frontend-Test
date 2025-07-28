@@ -11,9 +11,28 @@ const Registration = () => {
   const [alert, setAlert] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [passwordError, setPasswordError] = useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (name === "password") {
+      validatePasswords(value, formData.confirmPassword);
+    } else if (name === "confirmPassword") {
+      validatePasswords(formData.password, value);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,31 +49,63 @@ const Registration = () => {
       );
       return;
     }
+
+    if (passwordError || !formData.password || !formData.confirmPassword) {
+      setAlert(
+        <Alert
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="warning"
+          className="mb-4"
+        >
+          Please fix all errors before submitting.
+        </Alert>
+      );
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+
+    const existingUser = users.find((user) => user.email === formData.email);
+    if (existingUser) {
+      setAlert(
+        <Alert
+          icon={<CheckIcon fontSize="inherit" />}
+          severity="warning"
+          className="mb-4"
+        >
+          An account with this email already exists.
+        </Alert>
+      );
+      return;
+    }
+
+    const newUser = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    users.push(newUser);
+    localStorage.setItem("registeredUsers", JSON.stringify(users));
+
     setAlert(
       <Alert
         icon={<CheckIcon fontSize="inherit" />}
         severity="success"
         className="mb-4"
       >
-        Registration successful!
+        Registration successful! You can now login with your credentials.
       </Alert>
     );
 
-    navigate("/dashboard");
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
   };
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    validatePasswords(e.target.value, confirmPassword);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-    validatePasswords(password, e.target.value);
   };
 
   const validatePasswords = (pass, confirmPass) => {
@@ -80,7 +131,11 @@ const Registration = () => {
           </label>
           <input
             type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleInputChange}
             placeholder="Enter first name"
+            required
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
 
@@ -89,7 +144,11 @@ const Registration = () => {
           </label>
           <input
             type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleInputChange}
             placeholder="Enter last name"
+            required
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
 
@@ -98,7 +157,11 @@ const Registration = () => {
           </label>
           <input
             type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
             placeholder="Enter email address"
+            required
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
 
@@ -108,9 +171,11 @@ const Registration = () => {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
               placeholder="Enter password"
-              value={password}
-              onChange={handlePasswordChange}
+              required
               className="w-full p-3 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
             <button
@@ -132,9 +197,11 @@ const Registration = () => {
           <div className="relative">
             <input
               type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
               placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
+              required
               className={`w-full p-3 pr-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                 passwordError ? "border-red-500" : "border-gray-300"
               }`}
@@ -171,7 +238,9 @@ const Registration = () => {
           <button
             type="submit"
             className="w-full bg-gray-200 mt-10 text-white py-3 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition-colors"
-            disabled={passwordError || !password || !confirmPassword}
+            disabled={
+              passwordError || !formData.password || !formData.confirmPassword
+            }
           >
             <h1 className="font-semibold">Join Now</h1>
           </button>

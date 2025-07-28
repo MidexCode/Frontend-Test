@@ -21,7 +21,7 @@ const Login = () => {
       ...prev,
       [name]: value,
     }));
-    // Clear error when user starts typing
+
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -57,11 +57,16 @@ const Login = () => {
       return;
     }
 
-    // Simulate credential check (replace with real authentication)
-    if (
-      formData.email !== "correct@example.com" ||
-      formData.password !== "correctpassword"
-    ) {
+    const registeredUsers = JSON.parse(
+      localStorage.getItem("registeredUsers") || "[]"
+    );
+
+    const user = registeredUsers.find(
+      (user) =>
+        user.email === formData.email && user.password === formData.password
+    );
+
+    if (!user) {
       setAlert(
         <Alert
           icon={<CheckIcon fontSize="inherit" />}
@@ -74,28 +79,37 @@ const Login = () => {
       return;
     }
 
-    // If everything is correct
+    if (rememberMe) {
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        })
+      );
+    }
+
     setAlert(
       <Alert
         icon={<CheckIcon fontSize="inherit" />}
         severity="success"
         className="mb-4"
       >
-        Login successful! Redirecting to dashboard...
+        Login successful! Welcome back, {user.firstName}!
       </Alert>
     );
 
-    // Navigate after showing the success message
     setTimeout(() => {
       navigate("/dashboard");
     }, 1500);
-  }; // Added missing closing brace
+  };
 
   const handleCreateAccount = () => {
     setAlert(
       <Alert
         icon={<CheckIcon fontSize="inherit" />}
-        severity="info" // Changed from success to info
+        severity="info"
         className="mb-4"
       >
         Redirecting to registration page...
@@ -108,7 +122,7 @@ const Login = () => {
     setAlert(
       <Alert
         icon={<CheckIcon fontSize="inherit" />}
-        severity="info" // Changed from success to info
+        severity="info"
         className="mb-4"
       >
         Redirecting to forgot password page...
@@ -119,7 +133,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -127,7 +140,6 @@ const Login = () => {
               <h2 className="mb-10 font-bold">MockPortal</h2>
             </div>
 
-            {/* Title */}
             <h2 className="text-3xl text-center font-bold text-gray-900 mb-2">
               Sign in to your account
             </h2>
@@ -137,13 +149,12 @@ const Login = () => {
             </p>
           </div>
 
-          {/* Login Form */}
           <form
             onSubmit={handleSubmit}
             className="bg-white rounded-xl shadow-lg p-8 space-y-6"
           >
             {alert}
-            {/* Email Field */}
+
             <div>
               <label
                 htmlFor="email"
@@ -167,7 +178,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Password Field */}
             <div>
               <label
                 htmlFor="password"
@@ -206,7 +216,6 @@ const Login = () => {
               )}
             </div>
 
-            {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <input
@@ -233,7 +242,6 @@ const Login = () => {
               </button>
             </div>
 
-            {/* Sign In Button */}
             <button
               type="submit"
               className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -241,7 +249,6 @@ const Login = () => {
               Sign In
             </button>
 
-            {/* Create Account Link */}
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}
@@ -257,7 +264,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="bg-gray-100 py-4">
         <div className="text-center">
           <p className="text-sm text-gray-600">© 2025. All Right Reserved</p>

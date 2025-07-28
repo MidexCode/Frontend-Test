@@ -170,7 +170,10 @@ const Dashboard = () => {
                   </p>
                 </div>
               </div>
-              <button className="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 px-4 py-2 rounded-lg font-medium transition-colors">
+              <button
+                onClick={() => navigate("/verification")}
+                className="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 px-4 py-2 rounded-lg font-medium transition-colors"
+              >
                 Verify Account
               </button>
             </div>

@@ -1,11 +1,14 @@
-import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Registration from "./Registration/Registration.jsx";
+import Dashboard from "./Dashboard/Dashboard.jsx";
 
-const App = () => {
+function App() {
   return (
-    <div>
-      {/* <h1 className="text-3xl text-center  font-bold underline">Hello world!</h1> */}
-    </div>
+    <Routes>
+      <Route path="/" element={<Registration />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   );
-};
+}
 
 export default App;
